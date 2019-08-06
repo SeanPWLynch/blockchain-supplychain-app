@@ -1,0 +1,116 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Write your model definitions here
+ */
+
+namespace com.boanntech.supplychain.network
+
+concept Trace {
+  o DateTime timestamp
+  o Address location
+  --> Trader company
+}
+
+asset PO identified by orderID {
+  o String orderID
+  o Commodity[] itemList
+  o Double orderTotalPrice optional
+  o OrderStatus orderStatus optional
+  --> Trader orderer
+  --> Trader vendor
+}
+
+asset Commodity identified by commodityID {
+  o String commodityID
+  o String name
+  o String description
+  o Double quantity
+  o Double unitPrice optional
+  o Double totalPrice optional
+  o Trace[] trace
+  --> PO purchaseorder optional
+  --> Trader owner optional
+  --> Trader issuer optional
+}
+
+enum OrderStatus{
+  o INITIATED
+  o CONFIRMED
+  o DELIVERING
+  o DELIVERED
+}
+
+concept Address {
+  o Double longitude range=[-180.0,180.0] optional
+  o Double latitude range=[-90.0,90.0] optional
+  o String city optional
+  o String country optional
+  o String locality optional
+  o String region optional
+  o String street optional
+  o String postalCode optional
+  o String postOfficeBoxNumber optional
+}
+
+abstract participant Trader {
+  o String companyName
+  o Address address
+}
+
+participant Supplier identified by tradeID extends Trader{
+  o String tradeID
+}
+
+participant Manufacturer identified by tradeID extends Trader{
+  o String tradeID
+}
+
+participant Distributer identified by tradeID extends Trader{
+  o String tradeID
+}
+
+participant Retailer identified by tradeID extends Trader{
+  o String tradeID
+}
+
+participant Customer identified by tradeID extends Trader{
+  o String tradeID
+}
+
+
+
+// participant SampleParticipant identified by participantId {
+//   o String participantId
+//   o String firstName
+//   o String lastName
+// }
+
+// asset SampleAsset identified by assetId {
+//   o String assetId
+//   --> SampleParticipant owner
+//   o String value
+// }
+
+// transaction SampleTransaction {
+//   --> SampleAsset asset
+//   o String newValue
+// }
+
+// event SampleEvent {
+//   --> SampleAsset asset
+//   o String oldValue
+//   o String newValue
+// }
