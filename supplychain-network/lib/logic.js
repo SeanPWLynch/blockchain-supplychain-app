@@ -19,25 +19,15 @@
 
 /**
  * Sample transaction
- * @param {com.boanntech.supplychain.network.SampleTransaction} sampleTransaction
+ * @param {com.boanntech.supplychain.network.TransferCommodity} tx
  * @transaction
  */
-async function sampleTransaction(tx) {
-    // Save the old value of the asset.
-    const oldValue = tx.asset.value;
 
-    // Update the asset with the new value.
-    tx.asset.value = tx.newValue;
-
-    // Get the asset registry for the asset.
-    const assetRegistry = await getAssetRegistry('com.boanntech.supplychain.network.SampleAsset');
-    // Update the asset in the asset registry.
-    await assetRegistry.update(tx.asset);
-
-    // Emit an event for the modified asset.
-    let event = getFactory().newEvent('com.boanntech.supplychain.network', 'SampleEvent');
-    event.asset = tx.asset;
-    event.oldValue = oldValue;
-    event.newValue = tx.newValue;
-    emit(event);
+async function SampleTransaction(tx){
+    let value = tx.commodity.quantity;
+    tx.commodity.quantity=900;
+    let assetRegistry = getAssetRegistry('com.boanntech.supplychain.network.commodity');
+    await assetRegistry.update(tx.commodity);
 }
+
+

@@ -107,26 +107,3 @@ transaction TransferCommodity {
 --> PO purchaseOrder optional
 o Address shipperLocation
 }
-
-// participant SampleParticipant identified by participantId {
-//   o String participantId
-//   o String firstName
-//   o String lastName
-// }
-
-// asset SampleAsset identified by assetId {
-//   o String assetId
-//   --> SampleParticipant owner
-//   o String value
-// }
-
-// transaction SampleTransaction {
-//   --> SampleAsset asset
-//   o String newValue
-// }
-
-// event SampleEvent {
-//   --> SampleAsset asset
-//   o String oldValue
-//   o String newValue
-// }
