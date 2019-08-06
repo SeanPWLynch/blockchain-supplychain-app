@@ -18,6 +18,8 @@
 
 namespace com.boanntech.supplychain.network
 
+
+
 concept Trace {
   o DateTime timestamp
   o Address location
@@ -90,7 +92,21 @@ participant Customer identified by tradeID extends Trader{
   o String tradeID
 }
 
+transaction InitiatePO {
+o String orderID
+o Commodity[] itemList
+o Double orderTotalPrice optional
+--> Trader orderer optional
+--> Trader vendor
+}
 
+transaction TransferCommodity {
+--> Commodity commodity
+--> Trader newOwner
+--> Trader issuer
+--> PO purchaseOrder optional
+o Address shipperLocation
+}
 
 // participant SampleParticipant identified by participantId {
 //   o String participantId
